@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Авторизация пользователя</title>
+</head>
+
+<body>
+    <h1>Привет, посетитель!</h1>
+    <form th:action="@{/}" th:object="${user}" method="POST">
+      <input type="text" id="username" name="username" placeholder="Имя пользователя"/><br>&nbsp;<br>
+
+      <input type="password" id="password" name="password" th:placeholder="Пароль"/> <br>&nbsp;<br>
+
+        <div th:if="${param.error}">
+          <p>Имя пользователя или пароль некорректны</p>
+      </div>
+     <button name="Submit" value="Login" type="Submit" th:text="Авторизация"></button>
+    </form>
+<br>&nbsp;<br>
+
+    <a href="#" th:href="@{/register}">Зарегистрироваться</a>&nbsp;
+</body>
+</html>

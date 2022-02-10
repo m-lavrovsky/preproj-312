@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${descr}"></title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <form th:action="@{/dologout}" method="get">
+        <button type="Submit">Выйти из аккаунта</button>
+    </form>
+</div>
+    <h1 th:text="${descr}"></h1>
+    <p th:text="${userop.user.id} == -1 ? 'Задайте нового пользователя' : 'Будем править id '+${userop.user.id}" />
+
+<form th:action="@{/admin}" th:object="${userop}" th:method="POST">
+    <input type="hidden" id="act" th:field="*{action}">
+    <input type="hidden" id="id" th:field="*{user.id}">
+
+    <label for="name">Имя</label>
+    <input type="text" id="name" th:field="*{user.name}"><BR>&nbsp;<BR>
+
+    <label for="lastname">Фамилия</label>
+    <input type="text" id="lastname" th:field="*{user.lastname}"><BR>&nbsp;<BR>
+
+    <label for="age">Возраст</label>
+    <input type="text" id="age" th:field="*{user.age}"><BR>&nbsp;<BR>
+
+    <label for="age">Имя пользователя</label>
+    <input type="text" id="age" th:field="*{user.username}"><BR>
+
+    <p href="#" th:text="*{action} == 'edituser' ? 'Если не хотите менять пароль - оставьте оба поля пустыми' : ''"></p>
+    <label for="password">Пароль</label><br>
+    <input type="text" id="password" th:field="*{user.password}"><BR>&nbsp;<BR>
+
+    <label for="passwordconfirm">Подтверждение пароля</label><br>
+    <input type="text" id="passwordconfirm" th:field="*{user.passwordConfirm}"><BR>&nbsp;<BR>
+
+    <br>
+    <input type="submit" value="Отправить данные">
+</form>
+    <BR>
+    <p><a href="#" th:href="@{/admin}" th:text="${userop.action} == 'adduser' ? 'Не хочу добавлять нового юзера' : 'Не хочу редактровать юзера'"></a>
+</body>
+</html>

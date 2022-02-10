@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Админская</title>
+    <style>table th, table td {padding: 10px; border-width: 1px; background-color: darkseagreen}</style>
+</head>
+<body>
+<div>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/dologout}" method="get">
+            <button type="Submit">Выйти из аккаунта</button>
+        </form>
+    </div>
+    <h1>Привет, всемогущий админ!</h1>
+    <br>
+    <a th:href="@{/user}">Мой профиль</a>&nbsp;
+
+    <h3 th:text="${DeleteDone}"></h3>
+    <h3 th:text="${UserEdited}"></h3>
+    <h3 th:text="${UserAdded}"></h3>
+
+    <h2>Список юзеров:</h2>
+
+    <table >
+        <thead>
+        <tr>
+            <th width="35 px">#</th>
+            <th width="35 px">id</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Возраст</th>
+            <th>Username</th>
+            <th>Права</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr th:each="user, state: ${allUsers}">
+            <td th:text="${state.count}">
+            <td th:text="${user.id}">
+            <td th:text="${user.name}">
+            <td th:text="${user.lastname}">
+            <td th:text="${user.age}">
+            <td th:text="${user.username}">
+            <td th:each="role : ${user.getRoles}">
+                <span th:if="${role.getName() == 'ROLE_USER'}" th:text="пользователь "></span>
+                <span th:if="${role.getName() == 'ROLE_ADMIN'}" th:text="админ "></span>
+            </td>
+            <td>
+                <a href="#" th:href="@{/admin/edit(uid=${user.id})}">Изменить</a>&nbsp;
+                <a href="#" th:href="@{/admin/delete(uid=${user.id})}">Удалить</a>
+            </td>
+        </tr>
+    </table>
+
+    <BR><a th:href="@{/admin/add}">Добавить нового юзера</a>
+</div>
+</body>
+</html>

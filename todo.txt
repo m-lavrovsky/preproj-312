@@ -1,0 +1,65 @@
+При выходе - перебрасывает н аглавную
+При попытке авторзованого выйти на главную - редирект на /user
+
+обработчик ошибок авторизации должен сообщать об ошибке данных
+
+обработчик запрета доступа по хорошеу должен выдавать ошибку 403
+
+валидаторы входных данных (опционально)
+
+
+удаление пользователя через get
+    <p th:text="'id=' + ${user.id} + '  ' + ${user.username} + '  ' + ${user.name} + '  ' + ${user.lastname}"></p>
+    <p><a th:href="@{/admin(dodelete=1,uid=${uid})}">Подтвердить удаление</a></p>
+    <p><a th:href="@{/admin}">Отмена. Вернуться в админку</a></p>
+
+
+
+    <form th:action="@{/admin}" th:object="${userop}" th:method="POST">
+        <input type="hidden" id="act" th:field="*{action}">
+        <input type="hidden" id="id" th:field="*{user.id}">
+        <input type="hidden" id="name" th:field="*{user.name}">
+        <input type="hidden" id="lastname" th:field="*{user.lastname}">
+        <input type="hidden" id="username" th:field="*{user.username}">
+
+        <label th:field="*{user.id}" th:text="'Id: '+*{user.id}"></label><BR>
+        <label th:field="*{user.username}" th:text="'Имя пользователя: '+*{user.username}"></label><BR>
+        <label th:field="*{user.name}" th:text="'Имя: '+*{user.name}"></label><BR>
+        <label th:field="*{user.lastname}" th:text="'Фамилия: '+*{user.lastname}"></label><BR>
+
+        <input type="submit" value="Подтвердить удаление">
+    </form>
+
+
+
+    <form th:action="@{/admin}" th:object="${user}" th:method="POST">
+        <label for="userid">id:</label>
+        <input type="text" id="userid" th:field="*{id}"><br>
+
+        <label for="username">имя пользователя:</label>
+        <input type="text" id="username" th:field="*{username}"><br>
+
+        <label for="name">Имя:</label>
+        <input type="text" id="name" th:field="*{name}"><br>
+
+        <label for="lastname">Фамилия:</label>
+        <input type="text" id="lastname" th:field="*{lastname}"><br>
+
+        <input type="submit" value="Подтвердить удаление">
+    </form>
+	
+	
+	
+	        if ((dodelete.equals("1") && (uid>0) && ())){
+            User user = userRepository.findById(uid).get();
+            userService.deleteUser(uid);
+            model.addAttribute("userdeleted", "Юзер "+user.getUsername()+" ("+user.getName()+" "+user.getLastname()+") был удалён");
+        }
+		
+		
+		
+		
+		
+		
+		
+		

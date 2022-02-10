@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация нового пользователя</title>
+</head>
+<body>
+<a href="#" th:href="@{/}">Назад к авторизации</a>
+
+    <div>
+        <p th:text="${successMessage}"></p><br>
+
+            <form autocomplete="off" action="#" th:action="@{/register}"
+                  th:object="${userForm}" method="post" role="form">
+                <h2>Регистрация пользователя</h2>
+                <div>
+                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка имени</label>
+                    <label>Имя: </label>
+                    <input type="text" th:field="*{name}" placeholder="Имя"/>
+                </div><br>&nbsp;<br>
+                <div>
+                    <label th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}">Ошибка фамилии</label>
+                    <label>Фамилия: </label>
+                    <input type="text" th:field="*{lastname}" placeholder="Фамилия"/>
+                </div><br>&nbsp;<br>
+                <div>
+                    <label>Возраст: </label>
+                    <input type="text" th:field="*{age}" placeholder="Возраст"/>
+                    <label th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Ошибка возраста</label>
+                </div><br>&nbsp;<br>
+                <div>
+                    <label>Имя пользователя: </label>
+                    <input type="text" th:field="*{username}" placeholder="Имя пользователя"/>
+                    <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Ошибка логина</label>
+                    <label th:text="${usernameError}"></label>
+                </div><br>&nbsp;<br>
+                <div>
+                    <label>Пароль: </label>
+                    <input type="password" th:field="*{password}" placeholder="Пароль"/>
+                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Ошибека пароля</label>
+                </div><br>&nbsp;<br>
+                <div>
+                    <p><label>Повтор пароля: </label>
+                    <input type="password" th:field="*{passwordConfirm}" placeholder="Повтор пароля"/>
+                    <label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}">Ошибека повтора пароля</label>
+                    <label th:text="${passwordError}"></label>
+                </div><br>&nbsp;<br>
+
+                <div>
+                    <button type="submit">Зарегистрироаться</button>
+                </div>
+
+            </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Удаление юзера</title>
+</head>
+<body>
+    <div sec:authorize="isAuthenticated()">
+        <form th:action="@{/dologout}" method="get">
+            <button type="Submit">Выйти из аккаунта</button>
+        </form>
+    </div>
+    <h1>Удаление пользователя: </h1>
+
+    <form th:action="@{/admin}" th:object="${userop}" th:method="POST">
+        <input type="hidden" id="act" th:field="*{action}">
+        <input type="hidden" id="id" th:field="*{user.id}">
+        <input type="hidden" id="name" th:field="*{user.name}">
+        <input type="hidden" id="lastname" th:field="*{user.lastname}">
+        <input type="hidden" id="username" th:field="*{user.username}">
+
+        <label th:text="'Id: '+*{user.id}"></label><BR>
+        <label th:text="'Имя пользователя: '+*{user.username}"></label><BR>
+        <label th:text="'Имя: '+*{user.name}"></label><BR>
+        <label th:text="'Фамилия: '+*{user.lastname}"></label><br>&nbsp;<br>
+
+        <input type="submit" value="Подтвердить удаление">
+    </form>
+
+    <br><p><a th:href="@{/admin}">Отмена. Вернуться в админку</a></p>
+</body>
+</html>
