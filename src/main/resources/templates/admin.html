@@ -45,10 +45,7 @@
             <td th:text="${user.lastname}">
             <td th:text="${user.age}">
             <td th:text="${user.username}">
-            <td th:each="role : ${user.getRoles}">
-                <span th:if="${role.getName() == 'ROLE_USER'}" th:text="пользователь "></span>
-                <span th:if="${role.getName() == 'ROLE_ADMIN'}" th:text="админ "></span>
-            </td>
+            <td th:text="${user.getRolesAsString}">
             <td>
                 <a href="#" th:href="@{/admin/edit(uid=${user.id})}">Изменить</a>&nbsp;
                 <a href="#" th:href="@{/admin/delete(uid=${user.id})}">Удалить</a>

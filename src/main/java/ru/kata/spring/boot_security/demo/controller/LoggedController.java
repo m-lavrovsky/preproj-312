@@ -65,7 +65,7 @@ public class LoggedController {
         if (uop.getAction().equals("adduser")) {
             if ((uop.getUser().getPassword().equals(uop.getUser().getPasswordConfirm())) && (!uop.getUser().getPassword().equals(""))) {
                 try {
-                    userService.addUser(uop.getUser());
+                    userService.addUserMultiRole(uop.getUser(),uop.getRolesAsSet());
                     model.addAttribute("UserAdded","Пользователь "+uop.getUser().getUsername()+ " добавлен");
                 }
                 catch (RuntimeException e) {
@@ -76,7 +76,7 @@ public class LoggedController {
             }
         }
         if (uop.getAction().equals("edituser")) {
-            if (userService.editUser(uop.getUser().getId(),uop.getUser())) {
+            if (userService.editUser(uop.getUser(),uop.getRolesAsSet())) {
                 model.addAttribute("UserEdited","Пользователь с id = "+uop.getUser().getId()+
                                     " (текущий юзернейм "+uop.getUser().getUsername()+") исправлен");
             } else {

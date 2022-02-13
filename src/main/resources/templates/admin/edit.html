@@ -28,10 +28,16 @@
     <label for="age">Возраст</label>
     <input type="text" id="age" th:field="*{user.age}"><BR>&nbsp;<BR>
 
-    <label for="age">Имя пользователя</label>
-    <input type="text" id="age" th:field="*{user.username}"><BR>
+    <label for="username">Имя пользователя</label>
+    <input type="text" id="username" th:field="*{user.username}"><BR>&nbsp;<BR>
 
-    <p href="#" th:text="*{action} == 'edituser' ? 'Если не хотите менять пароль - оставьте оба поля пустыми' : ''"></p>
+    <label for="roles">Права</label>
+    <select id="roles" size="2" multiple th:field="*{roles}">
+        <option th:value="ROLE_ADMIN" th:text="админ">админ</option>
+        <option th:value="ROLE_USER" th:text="user">пользователь</option>
+    </select>
+
+    <p th:if="*{action == 'edituser'}">Если не хотите менять пароль - оставьте оба поля пустыми</p>
     <label for="password">Пароль</label><br>
     <input type="text" id="password" th:field="*{user.password}"><BR>&nbsp;<BR>
 

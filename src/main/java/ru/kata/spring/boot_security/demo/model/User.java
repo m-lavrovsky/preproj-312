@@ -106,6 +106,19 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public String getRolesAsString() {
+        StringBuilder sb = new StringBuilder();
+        int ctr = 0;
+        for (Role role : this.roles) {
+            if (ctr > 0) {
+                sb.append(", ");
+            }
+            sb.append(role.getNicename());
+            ctr++;
+        }
+        return sb.toString();
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

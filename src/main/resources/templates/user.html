@@ -17,10 +17,7 @@
     <p>Фамилия: <span th:text="${userdata.lastname}"></span></p>
     <p>Возраст: <span th:text="${userdata.age}"></span></p>
     <p>Имя пользователя: <span th:text="${userdata.username}"></span></p>
-    <p>Права:&nbsp;
-        <span sec:authorize="hasRole('USER')">пользователь </span>
-        <span sec:authorize="hasRole('ADMIN')">администратор</span>
-    </p>
+    <p>Имя пользователя: <span th:text="${userdata.getRolesAsString()}"></span></p>
 
     <div sec:authorize="hasRole('ADMIN')">
         <a href="#" th:href="@{/admin}">Вернуться в админскую</a>&nbsp

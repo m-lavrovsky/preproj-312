@@ -14,10 +14,7 @@ import ru.kata.spring.boot_security.demo.repo.UserRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -59,10 +56,11 @@ public class UserService implements UserDetailsService {
         //return userRepository.findAll();
     }
 
-    public boolean editUser(Long id, User user) {
-        User userFromDB = findUserByIdOrNull(id);
+    public boolean editUser(User user, Set<Role> roles) {
+        User userFromDB = findUserByIdOrNull(user.getId());
         if (userFromDB != null) {
-            user.setRoles(userFromDB.getRoles());
+            user.setRoles(roles);
+
             if (!user.getPassword().equals(user.getPasswordConfirm())) {
                 return false;
             } else {
@@ -78,17 +76,19 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    // добавляет пользоателя с правами по умолчанию (юзер)
     public boolean addUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
             return false;
         }
-        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        user.setRoles(Collections.singleton(new Role(2L, "ROLE_USER","пользователь")));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
     }
 
+    // добавляет юзера с правами по роли указанной человекопонятным языком
     public boolean addUser(User user, String role) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if (userFromDB != null) {
@@ -96,9 +96,23 @@ public class UserService implements UserDetailsService {
         }
         if (role.equals("admin")) {
             user.setRoles(Collections.singleton(new Role(1L)));
-        } else if (role.equals("user")) {
+        }
+        if (role.equals("user")) {
             user.setRoles(Collections.singleton(new Role(2L)));
         }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return true;
+    }
+
+    // добавляет юзера с набором прав (можно и одно)
+    public boolean addUserMultiRole(User user, Set<Role> roles) {
+        User userFromDB = userRepository.findByUsername(user.getUsername());
+        if (userFromDB != null) {
+            return false;
+        }
+        user.setRoles(roles);
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return true;
@@ -115,12 +129,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void initRoles() {
         //em.createNativeQuery("INSERT INTO roles values ('1','ROLE_ADMIN')").executeUpdate();
-        em.persist(new Role(1L,"ROLE_ADMIN"));
-        em.persist(new Role(2L,"ROLE_USER"));
+        em.persist(new Role(1L,"ROLE_ADMIN","админ"));
+        em.persist(new Role(2L,"ROLE_USER","пользователь"));
     }
-
-    /*public List<User> usergtList(Long idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
-    }*/
 }
